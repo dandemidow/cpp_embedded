@@ -15,21 +15,18 @@ struct Writer {
   static constexpr int value = N;
 };
 
-template<int N = 0, auto = []{}>
+template<int N = 0>
 constexpr int reader(float) {
   return Writer<N>::value;
 }
 
-template<int N = 0, auto = []{},
-         bool = flag(Flag<N>{})>
+template<int N = 0,
+         bool = flag(Flag<N>{}),
+         auto = []{}>
 constexpr int reader(int) {
   return reader<N + 1>(int{});
 }
 
-template<int R = reader<0, []{}>(int{})>
-constexpr int next() {
-  return R;
-}
 static_assert(not std::is_same_v<decltype([](){}), decltype([](){})>);
 
 int main() {
